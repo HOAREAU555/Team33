@@ -1,0 +1,25 @@
+services:
+  node-app:
+    build: api
+    image: node-app
+    command: yarn dev -L
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./api:/usr/src/node-app
+    networks:
+      - vue-network
+
+  vue-app:
+    build: frontend
+    image: vue-app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - node-app
+    networks:
+      - vue-network
+
+networks:
+  vue-network:
+    driver: bridge
